@@ -88,15 +88,15 @@ jobs:
         else
         exit 1
         fi
-        if [ -f public/zerotier.Makefile ] ; then
-        mv -f public/zerotier.Makefile ${{ env.DIR }}/trunk/user/zerotier/Makefile
-        echo "Makefile file copy success"
-        else
-        exit 2
-        fi
+        #if [ -f public/zerotier.Makefile ] ; then
+        #mv -f public/zerotier.Makefile ${{ env.DIR }}/trunk/user/zerotier/Makefile
+        #echo "Makefile file copy success"
+        #else
+        #exit 2
+        #fi
         cp -f public/MI-R4A.config ${{ env.DIR }}/trunk/configs/templates
         cp -f public/adguardhome.sh ${{ env.DIR }}/trunk/user/adguardhome
-        cp -f public/zerotier.sh ${{ env.DIR }}/trunk/user/zerotier
+        #cp -f public/zerotier.sh ${{ env.DIR }}/trunk/user/zerotier
         #cwd=`pwd`
         #CONFIG_TOOLCHAIN_DIR=${cwd//\//\\\/}\\/toolchain-mipsel
         cd ${{ env.DIR }}/trunk
