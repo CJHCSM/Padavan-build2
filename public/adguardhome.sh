@@ -64,7 +64,7 @@ adg_file="/etc/storage/adg.sh"
 if [ ! -f "$adg_file" ] || [ ! -s "$adg_file" ] ; then
   cat > "$adg_file" <<-\EEE
 bind_host: 0.0.0.0
-bind_port: 3030
+bind_port: 3000
 auth_name: adguardhome
 auth_pass: adguardhome
 language: zh-cn
@@ -167,8 +167,8 @@ sed -Ei '/AdGuardHome守护进程|^$/d' "$F"
 			curl -L -k -S -o "/tmp/AdGuardHome.tar.gz" --connect-timeout 10 --retry 3 "https://fastly.jsdelivr.net/gh/AdguardTeam/AdGuardHome@releases/download/$tag/AdGuardHome_linux_mipsle_softfloat.tar.gz"
 			tar -xzvf /tmp/AdGuardHome.tar.gz -C /tmp
 		else
-			static_adguard="https://fastly.jsdelivr.net/gh/AdguardTeam/AdGuardHome@releases/download/v0.107.35/AdGuardHome_linux_mipsle_softfloat.tar.gz"
-			logger -t "AdGuardHome" "下载AdGuardHome_v0.107.35"
+			static_adguard="https://fastly.jsdelivr.net/gh/AdguardTeam/AdGuardHome@releases/download/v0.107.37/AdGuardHome_linux_mipsle_softfloat.tar.gz"
+			logger -t "AdGuardHome" "下载AdGuardHome_v0.107.37"
 			curl -L -k -S -o "/tmp/AdGuardHome.tar.gz" --connect-timeout 10 --retry 3 "$static_adguard"
 			tar -xzvf /tmp/AdGuardHome.tar.gz -C /tmp ; cd /tmp/AdGuardHome
 		fi
