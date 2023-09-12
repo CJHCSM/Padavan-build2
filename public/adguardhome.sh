@@ -130,30 +130,24 @@ dhcp:
   range_end: ""
   lease_duration: 86400
   icmp_timeout_msec: 1000
-#clients: []
+clients: []
 log_file: ""
 verbose: false
 schema_version: 3
+
 EEE
 	chmod 755 "$adg_file"
 fi
 }
 
-dl_adg() {
+dl_adg(){
 logger -t "AdGuardHome" "下载AdGuardHome"
-curl -k -s -o /tmp/AdGuardHome/AdGuardHome --connect-timeout 10 --retry 3 https://ghproxy.com/https://github.com/vipshmily/OutSide/blob/main/AdGuardHome
-#curl -k -s -o /tmp/AdGuardHome/AdGuardHome --connect-timeout 10 --retry 3 https://fastly.jsdelivr.net/gh/vipshmily/OutSide/AdGuardHome
+#wget --no-check-certificate -O /tmp/AdGuardHome.tar.gz https://github.com/AdguardTeam/AdGuardHome/releases/download/v0.101.0/AdGuardHome_linux_mipsle.tar.gz
+curl -L -k -s -o /tmp/AdGuardHome/AdGuardHome --connect-timeout 10 --retry 3 https://ghproxy.com/https://github.com/vipshmily/OutSide/blob/main/AdGuardHome
 if [ ! -f "/tmp/AdGuardHome/AdGuardHome" ]; then
-logger -t "AdGuardHome" "AdGuardHome下载失败，自动切换到备用下载。"
-curl -k -s -o /tmp/AdGuardHome/AdGuardHome --connect-timeout 10 --retry 3 https://raw.githubusercontent.com/vipshmily/OutSide/main/AdGuardHome
-if [ ! -f "/tmp/AdGuardHome/AdGuardHome" ]; then
-logger -t "AdGuardHome" "AdGuardHome备用下载失败，请检查是否能正常访问github!程序将退出。"
+logger -t "AdGuardHome" "AdGuardHome下载失败，请检查是否能正常访问github!程序将退出。"
 nvram set adg_enable=0
 exit 0
-else
-logger -t "AdGuardHome" "AdGuardHome备用下载成功。"
-chmod 777 /tmp/AdGuardHome/AdGuardHome
-fi
 else
 logger -t "AdGuardHome" "AdGuardHome下载成功。"
 chmod 777 /tmp/AdGuardHome/AdGuardHome
@@ -164,13 +158,12 @@ start_adg(){
     mkdir -p /tmp/AdGuardHome
 	mkdir -p /etc/storage/AdGuardHome
 	if [ ! -f "/tmp/AdGuardHome/AdGuardHome" ]; then
-#	cp /usr/bin/AdGuardHome /tmp/AdGuardHome/AdGuardHome
 	dl_adg
 	fi
 	getconfig
 	change_dns
 	set_iptable
-	logger -t "AdGuardHome" "启动 AdGuardHome"
+	logger -t "AdGuardHome" "运行AdGuardHome"
 	eval "/tmp/AdGuardHome/AdGuardHome -c $adg_file -w /tmp/AdGuardHome -v" &
 
 }

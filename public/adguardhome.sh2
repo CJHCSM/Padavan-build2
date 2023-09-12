@@ -80,6 +80,7 @@ dns:
   refuse_any: true
   bootstrap_dns:
   - 223.5.5.5
+  - 119.29.29.29
   all_servers: true
   allowed_clients: []
   disallowed_clients: []
@@ -90,7 +91,10 @@ dns:
   safebrowsing_enabled: false
   resolveraddress: ""
   upstream_dns:
-  - 223.5.5.5
+  - quic://i.passcloud.xyz:784
+  - tls://i.passcloud.xyz:5432
+  - quic://a.passcloud.xyz:784
+  - tls://a.passcloud.xyz:5432
 tls:
   enabled: false
   server_name: ""
@@ -126,7 +130,7 @@ dhcp:
   range_end: ""
   lease_duration: 86400
   icmp_timeout_msec: 1000
-clients: []
+#clients: []
 log_file: ""
 verbose: false
 schema_version: 3
@@ -137,11 +141,11 @@ fi
 
 dl_adg() {
 logger -t "AdGuardHome" "下载AdGuardHome"
-curl -k -s -o /tmp/AdGuardHome/AdGuardHome --connect-timeout 10 --retry 3 https://raw.githubusercontent.com/vipshmily/OutSide/main/AdGuardHome
+curl -k -s -o /tmp/AdGuardHome/AdGuardHome --connect-timeout 10 --retry 3 https://ghproxy.com/https://github.com/vipshmily/OutSide/blob/main/AdGuardHome
 #curl -k -s -o /tmp/AdGuardHome/AdGuardHome --connect-timeout 10 --retry 3 https://fastly.jsdelivr.net/gh/vipshmily/OutSide/AdGuardHome
 if [ ! -f "/tmp/AdGuardHome/AdGuardHome" ]; then
 logger -t "AdGuardHome" "AdGuardHome下载失败，自动切换到备用下载。"
-curl -k -s -o /tmp/AdGuardHome/AdGuardHome --connect-timeout 10 --retry 3 https://ghproxy.com/https://github.com/vipshmily/OutSide/blob/main/AdGuardHome
+curl -k -s -o /tmp/AdGuardHome/AdGuardHome --connect-timeout 10 --retry 3 https://raw.githubusercontent.com/vipshmily/OutSide/main/AdGuardHome
 if [ ! -f "/tmp/AdGuardHome/AdGuardHome" ]; then
 logger -t "AdGuardHome" "AdGuardHome备用下载失败，请检查是否能正常访问github!程序将退出。"
 nvram set adg_enable=0
